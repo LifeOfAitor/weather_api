@@ -3,6 +3,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
+filename = "data_small/stations.txt"
+stations = pd.read_csv(filename, skiprows=17)
+stations = stations[["STAID", "STANAME                                 "]]
 
 def reformat(date, station, temperature):
     return {
@@ -14,7 +17,7 @@ def reformat(date, station, temperature):
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", data=stations.to_html())
 
 
 @app.route("/api/v1/<station>/<date>")
